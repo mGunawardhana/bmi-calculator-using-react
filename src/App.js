@@ -2,40 +2,40 @@
 import "./App.css";
 import { useState } from "react";
 
-function App() {
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
+const App = () => {
+  const [weight, setWeight] = useState(null);
+  const [height, setHeight] = useState(null);
 
-  const [bmiResult, setBmiResult] = useState(null);
+  const [bmi, setBmi] = useState(null);
 
-  const { status, setStatus } = useState("");
+  const [status, setStatus] = useState("");
 
-  function CalculateBMI() {
+  const calculateBmi = () => {
     //to fixed two to is used to get two floating point numbers
-    let bmi = Number(weight / (height / 100) ** 2).toFixed(2);
-    setBmiResult(bmi);
-    console.log(bmi);
+    let bmiResult = (weight / (height / 100) ** 2).toFixed(2);
+    setBmi(bmiResult);
 
-    let bmiStatus = getStatus(bmi);
-    setStatus(bmiStatus);
-    
+    let status = getBmi(bmiResult);
+    setStatus(status);
 
-  }
+    setHeight("");
+    setWeight("");
+  };
 
-  function getStatus(bmi) {
+  const getBmi = (bmi) => {
     if (bmi < 18.5) return "UnderWeight";
     else if (bmi >= 18.5 && bmi < 24.9) return "Normal";
     else if (bmi >= 25 && bmi < 29.9) return "OverWeight";
     else return "Obese";
-  }
+  };
 
   return (
-    <div class="w-full max-w-xs m-10 ">
-      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-4">
+    <div id="parentContext" class="w-full max-w-sm  m-auto mt-40 shadow-gray-700 transition-opacity shadow-lg rounded-xl">
+      <form id="mainContainer" class="bg-white shadow-md rounded px-12 pt-10 pb-8 mb-6">
+        <div id="heightBox" class="mb-4">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            for="height"
           >
             Height
           </label>
@@ -48,7 +48,7 @@ function App() {
             onChange={(e) => setHeight(e.target.value)}
           />
         </div>
-        <div class="mb-6">
+        <div id="weightBox" class="mb-6">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
             for="password"
@@ -66,22 +66,22 @@ function App() {
         </div>
         <div class="flex items-center justify-center">
           <button
-            class="bg-lime-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            class="bg-lime-700 hover:bg-blue-700 text-white font-bold py-2 px-4 shadow-xl rounded focus:outline-none focus:shadow-outline"
             type="button"
-            onClick={CalculateBMI}
+            onClick={calculateBmi}
           >
             Calculate BMI
           </button>
         </div>
-        {bmiResult && (
+        {bmi && (
           <div className="mt-4">
-            <p>Your BMI is : {status}</p>
-            <p>You are Currently : {bmiResult}</p>
+            <p className="colour">Your BMI is : {bmi}</p>
+            <p className="colour">You are Currently : {status}</p>
           </div>
         )}
       </form>
     </div>
   );
-}
+};
 
 export default App;
